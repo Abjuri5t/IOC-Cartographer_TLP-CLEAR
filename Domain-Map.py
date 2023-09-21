@@ -15,7 +15,7 @@ def getDomains(fileName):
 		if(validDomain(item)):
 			validated.append(item)
 		else:
-			raise Exception("Invalid item \""+item+"\" in file. Please make sure input file is a list of IPv4 addresses (see example-IPs.list).")
+			raise Exception("Invalid item \""+item+"\" in file. Please make sure input file is a list of domain names (see example-Domains.list).")
 	return validated
 
 
@@ -148,27 +148,11 @@ def drawTree(forrest, total):
 
 def assignTreeColors(ltns, tlds):
 	half = int(ltns/2)
+	colors = [(ltns,0,0), (ltns,half,0), (ltns,0,half), (ltns,ltns,0), (ltns,0,ltns), (half,ltns,0), (half,0,ltns), (0,ltns,0)]
 	
 	assigned = {}
-	red=(ltns,0,0)
-	assigned[tlds[0]] = red 
-	orange=(ltns,half,0)
-	assigned[tlds[1]] = orange
-	magenta=(ltns,0,half)
-	assigned[tlds[2]] = magenta
-	yellow=(ltns,ltns,0)
-	assigned[tlds[3]] = yellow
-	purple=(ltns,0,ltns)
-	assigned[tlds[4]] = purple
-	yellowGreen=(half,ltns,0)
-	assigned[tlds[5]] = yellowGreen
-	violet=(half,0,ltns)
-	assigned[tlds[6]] = violet
-	green=(0,ltns,0)
-	assigned[tlds[7]] = green
-	seaGreen=(0,ltns,half)
-	turquois=(0,ltns,ltns)
-	lightBlue=(0,half,ltns)
+	for index in range(len(tlds)):
+		assigned[tlds[index]] = colors[index]
 	
 	return assigned
 
