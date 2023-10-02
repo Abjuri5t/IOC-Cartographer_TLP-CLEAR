@@ -15,7 +15,8 @@ def getDomains(fileName):
 		if(validDomain(item)):
 			validated.append(item)
 		else:
-			raise Exception("Invalid item \""+item+"\" in file. Please make sure input file is a list of domain names (see example-Domains.list).")
+			#raise Exception("Invalid item \""+item+"\" in file. Please make sure input file is a list of domain names (see example-Domains.list).")
+			print("Invalid item \""+item+"\" in file. Domain will not be included in analysis. Please make sure input file is a list of domain names (see example-Domains.list).")
 	return validated
 
 
@@ -97,7 +98,7 @@ def patternOnly(raw):
 	return repeats
 
 
-def drawTree(forrest, total):
+def drawTree(forrest, total, writeTime):
 	assignedColors = assignTreeColors(128, list(forrest.keys()))
 	gap = -1
 	mult = 1
@@ -139,7 +140,6 @@ def drawTree(forrest, total):
 				locations[treeName] = [int(x-width),int(y+(b/2))]
 				y = y+b
 		x = (x - width) - separate
-	writeTime = int(time.time())
 	fName = "graphed-domains_"+str(writeTime)+".jpg"
 	img.save(fName)
 	
@@ -215,13 +215,21 @@ def parseParent(domainName):
 	return parent
 
 
+nowTime = int(time.time())
 allDomains = getDomains(sys.argv[1])
 uniqueDomains = list(set(allDomains))
 print(str(len(uniqueDomains))+" unique domain names")
+
 forrest = {}
 for domainName in allDomains:
 	levels = domainName.split('.')
 	forrest = recurseDoms(forrest, levels)
+
 dispDomains = parseTree(forrest, 8, '')
-graphName = drawTree(dispDomains, len(uniqueDomains))
+statsObj = json.dumps(dispDomains, indent=2)
+statsName = "domain-stats_"+nowTime+".json"
+with open(statsName, "w") as statsOut:
+	statsOut.write(statsObj)
+
+graphName = drawTree(dispDomains, len(uniqueDomains), nowTime)
 print("Domain Graph successfully written to "+graphName)
