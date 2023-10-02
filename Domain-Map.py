@@ -1,9 +1,10 @@
 import sys
 import re
+import time
 import PIL.Image
 import PIL.ImageDraw
 import PIL.ImageFont
-import time
+import json
 
 
 def getDomains(fileName):
@@ -227,9 +228,10 @@ for domainName in allDomains:
 
 dispDomains = parseTree(forrest, 8, '')
 statsObj = json.dumps(dispDomains, indent=2)
-statsName = "domain-stats_"+nowTime+".json"
+statsName = "domain-stats_"+str(nowTime)+".json"
 with open(statsName, "w") as statsOut:
 	statsOut.write(statsObj)
+print("Domain processing statistics written to "+statsName)
 
 graphName = drawTree(dispDomains, len(uniqueDomains), nowTime)
 print("Domain Graph successfully written to "+graphName)
