@@ -60,7 +60,7 @@ def drawMapSlash16(legend):
 	dimension = 819
 	black = (0,0,0)
 	white = (255,255,255)
-	numFont = PIL.ImageFont.truetype(".LiberationSansNarrow-Regular.ttf",18)
+	numFont = PIL.ImageFont.truetype(".LiberationSansNarrow-Regular.ttf",15)
 	# LiberationSans-Regular
 	img = PIL.Image.new(mode="RGB",size=(dimension,dimension),color=black)
 	d = PIL.ImageDraw.Draw(img)
@@ -92,7 +92,7 @@ def drawMapSlash16(legend):
 			redness = 255 - legend[slash16]
 			xCor = (x*bSize)+((x+1)*gap)
 			d.rectangle((xCor,yCor,xCor+bSize,yCor+bSize),fill=(255,redness,redness))
-			d.text((xCor+6,yCor+3),rows[y]	[x],fill=black,font=numFont)
+			d.text((xCor+3,yCor+2),firstOctet+'.'+rows[y][x],fill=black,font=numFont)
 	writeTime = int(time.time())
 	fName = "Slash-16_mapped-IPs_"+str(writeTime)+".jpg"
 	img.save(fName)
